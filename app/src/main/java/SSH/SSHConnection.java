@@ -1,6 +1,9 @@
 package SSH;
 
-import com.jcraft.jsch.*;
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelShell;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,10 +17,14 @@ class SSHConnection {
     // Create SSH Session
     private Session session = null;
     // Create new SSH Channel
-    private ChannelShell channel = null;
+    private Channel channel = null;
 
     private InputStream sshInputStream   = null;
     private OutputStream sshOutputStream = null;
+
+    SSHConnection() {
+
+    }
 
     // new SSH Connection
     boolean openConnection(String host, int port, String username, String password, int timeout) {
@@ -40,7 +47,7 @@ class SSHConnection {
 
             session.connect(timeout);
             // Get channel to connect with ssh server
-            channel = (ChannelShell) session.openChannel("shell");
+            channel = session.openChannel("shell");
 
             //Connect to channel
             channel.connect();
